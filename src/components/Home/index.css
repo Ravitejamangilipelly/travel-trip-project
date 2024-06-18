@@ -1,128 +1,155 @@
-.home-background {
-  background-color: #f5f5f5;
-  background-size: cover;
-  height: 898px;
+.home-page-container {
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 1280px;
+  align-items: center;
+  width: 100%;
 }
 
-.homepage-image {
-  width: 644px;
-  height: 624px;
-  margin-top: 60px;
-  margin-right: 126px;
+@media screen and (min-width: 768px) {
+  .home-page-container {
+    flex-direction: column;
+  }
 }
 
-.home-content {
+.home-lg-header {
+  display: none;
+}
+
+.home-header {
+  display: flex;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .home-lg-header {
+    display: flex;
+    width: 100%;
+  }
+  .home-header {
+    display: none;
+    width: 100%;
+  }
+}
+
+.home-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  margin-top: 50px;
+}
+
+@media screen and (min-width: 768px) {
+  .home-content-container {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 80%;
+    justify-content: center;
+    margin-top: 50px;
+  }
+}
+
+.home-image {
+  width: 227px;
+  height: 312px;
+  top: 72px;
+  left: 66px;
+  gap: 0px;
+ 
+}
+
+@media screen and (min-width: 768px) {
+  .home-image {
+    width: 644px;
+    height: 624px;
+  }
+}
+
+.home-content-description {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 84px;
-  margin-left: 162px;
 }
 
-.home-heading {
-  color: #304766;
+.header {
+  display: flex;
+  width: 100%;
+}
+
+.lg-header {
+  display: none;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    display: none;
+  }
+
+  .lg-header {
+    display: flex;
+  }
+}
+
+.home-page-heading {
   font-family: 'Roboto';
-  font-size: 56px;
+  font-size: 24px;
   font-weight: 600;
-  line-height: 72px;
-  text-align: left;
-}
-
-.home-paragraph {
+  line-height: 32px;
+  letter-spacing: 0.10000000149011612px;
   color: #304766;
-  font-family: 'Roboto';
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 37px;
-  text-align: left;
+  align-self: flex-start;
 }
 
-.book-button {
-  background-color: #304766;
+@media screen and (min-width: 768px) {
+  .home-page-heading {
+    font-size: 56px;
+    line-height: 72px;
+  }
+}
+
+.home-page-description {
+  font-family: 'Roboto';
   font-size: 16px;
-  font-weight: 600;
-  color: #ffffff;
-  text-align: center;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0.20000000298023224px;
+  color: #304766;
+}
+
+@media screen and (min-width: 768px) {
+  .home-page-description {
+    font-size: 20px;
+    line-height: 37px;
+  }
+}
+
+.home-page-btn {
   width: 175px;
   height: 48px;
-  border: none;
-  border-radius: 8px;
   padding: 12px 24px 12px 24px;
-  margin-top: 32px;
-  outline: none;
+  gap: 8px;
+  border-radius: 8px;
+  align-self: center;
+  background-color: #304766;
+  border: none;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.10000000149011612px;
   cursor: pointer;
 }
-@media screen and (min-width: 767px) {
-  .homepage-mobile-image {
-    display: none;
-  }
-  .mobile-home-heading {
-    display: none;
-  }
-  .mobile-home-paragraph {
-    display: none;
+
+@media screen and (min-width: 768px) {
+  .home-page-btn {
+    align-self: flex-start;
   }
 }
 
-@media screen and (max-width: 766px) {
-  .homepage-image {
-    display: none;
-  }
-  .home-heading {
-    display: none;
-  }
-  .home-paragraph {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 766px) {
-  .home-background {
-    background-color: #ffffff;
-    height: 800px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 360px;
-    margin-top: -72px;
-  }
-  .homepage-mobile-image {
-    width: 227px;
-    height: 312px;
-    margin-top: 0px;
-  }
-  .home-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0px;
-    margin-top: 0px;
-  }
-
-  .mobile-home-heading {
-    color: #304766;
-    font-family: 'Roboto';
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 32px;
-    text-align: center;
-  }
-  .mobile-home-paragraph {
-    color: #304766;
-    font-family: 'Roboto';
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 32px;
-    text-align: center;
-  }
-  .book-button {
-    font-size: 16px;
-  }
+.header {
+  width: 100%;
 }

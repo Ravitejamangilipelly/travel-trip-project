@@ -1,7 +1,7 @@
 import {Component} from 'react'
-import Cookies from 'js-cookie'
 import {Redirect} from 'react-router-dom'
-import {AiOutlineEyeInvisible, AiOutlineEye} from 'react-icons/ai'
+import Cookies from 'js-cookie'
+import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai'
 
 import './index.css'
 
@@ -9,9 +9,9 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
-    showErrorPassword: false,
     errorMsg: '',
-    showPassword: false,
+    isSuccessError: false,
+    isShowPassword: false,
   }
 
   onChangeUsername = event => {
@@ -22,32 +22,35 @@ class Login extends Component {
     this.setState({password: event.target.value})
   }
 
-  onShowPasswordsClicked = () => {
-    this.setState(prevState => ({showPassword: !prevState.showPassword}))
-  }
-
   onSubmitSuccess = jwtToken => {
     const {history} = this.props
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
+
+    Cookies.set('jwt_token', jwtToken, {
+      expires: 30,
+      path: '/',
+    })
     history.replace('/')
   }
 
   onSubmitFailure = errorMsg => {
-    this.setState({
-      showErrorPassword: true,
-      errorMsg,
-    })
+    const firstLetter = errorMsg.charAt(0)
+    const remainingLetters = errorMsg.substring(1)
+    const capitalizedFirstLetter = firstLetter.toUpperCase()
+    const capitalizedWord = capitalizedFirstLetter + remainingLetters
+    this.setState({isSuccessError: true, errorMsg: capitalizedWord})
   }
 
-  submitForm = async event => {
+  onSubmitLoginForm = async event => {
     event.preventDefault()
     const {username, password} = this.state
     const userDetails = {username, password}
+
     const url = 'https://apis.ccbp.in/login'
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
     }
+
     const response = await fetch(url, options)
     const data = await response.json()
 
@@ -58,66 +61,80 @@ class Login extends Component {
     }
   }
 
-  render() {
-    const {username, password, showErrorPassword, errorMsg, showPassword} =
-      this.state
+  onClickShowPassword = () => {
+    this.setState(prevState => ({isShowPassword: !prevState.isShowPassword}))
+  }
 
+  render() {
     const jwtToken = Cookies.get('jwt_token')
     if (jwtToken !== undefined) {
-      return <Redirect to='/' />
+      return <Redirect to="/" />
     }
-
+    const {
+      username,
+      password,
+      isSuccessError,
+      errorMsg,
+      isShowPassword,
+    } = this.state
+    const inputType = isShowPassword ? 'text' : 'password'
     return (
-      <div className='background-container'>
-        <form className='form-container' onSubmit={this.submitForm}>
-          <h1 className='travel-heading'>Travel Trip</h1>
-
-          <div className='input-container'>
-            <label htmlFor='username' className='input-label'>
-              Username
-            </label>
+      <div className="login-container">
+        <form onSubmit={this.onSubmitLoginForm} className="form-container">
+          <h1 className="heading">Travel Trip</h1>
+          <label className="label-text" htmlFor="username">
+            Username
+          </label>
+          <input
+            onChange={this.onChangeUsername}
+            value={username}
+            className="username-input-field"
+            id="username"
+            type="text"
+            placeholder="Username"
+          />
+          <label className="label-text" htmlFor="password">
+            Password
+          </label>
+          <div className="input-container">
             <input
-              className='username-input-field'
-              type='text'
-              id='username'
-              placeholder='Username'
-              value={username}
-              onChange={this.onChangeUsername}
+              onChange={this.onChangePassword}
+              value={password}
+              className="input-field"
+              id="password"
+              type={inputType}
+              placeholder="Password"
             />
-          </div>
-          <div className='input-container'>
-            <label htmlFor='password' className='input-label'>
-              Password
-            </label>
-            <div className='input-element'>
-              <input
-                className='password-input-field'
-                id='password'
-                type={showPassword ? 'text' : 'password'}
-                placeholder='Password'
-                value={password}
-                onChange={this.onChangePassword}
-              />
+            {isShowPassword ? (
               <button
-                data-testid='show-password'
-                type='button'
-                className='eye-btn'
-                onClick={this.onShowPasswordsClicked}
+                onClick={this.onClickShowPassword}
+                className="password-icon-btn"
+                data-testid="show-password"
+                type="button"
               >
-                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                <AiOutlineEyeInvisible className="password-eye-icon" />
+                <p className="password-eye">Password visible</p>
               </button>
-            </div>
-            {showErrorPassword && <p className='error-message'>{errorMsg}</p>}
+            ) : (
+              <button
+                onClick={this.onClickShowPassword}
+                className="password-icon-btn"
+                data-testid="show-password"
+                type="button"
+              >
+                <AiOutlineEye className="password-eye-icon" />
+                <p className="password-eye">Password visible</p>
+              </button>
+            )}
           </div>
-
-          <div className='button-size'>
-            <button type='submit' className='login-button'>
-              Login
-            </button>
-          </div>
+          {isSuccessError && <p className="error-msg">{errorMsg}</p>}
+          <button className="login-button" type="submit">
+            Login
+          </button>
         </form>
       </div>
     )
   }
 }
+
 export default Login

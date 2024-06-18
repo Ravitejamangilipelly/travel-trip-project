@@ -1,85 +1,61 @@
-import {Link} from 'react-router-dom'
-import Cookies from 'js-cookie'
-import ContextValue from '../../context/ContextValue'
-import Footer from '../Footer'
+import {withRouter, Link} from 'react-router-dom'
+import Header from '../Header'
+import TravelTripContextValue from '../../context/TravelTripContextValue'
 
 import './index.css'
 
-const MyTrips = props => {
-  const {history} = props
-  const onClickLogout = () => {
-    Cookies.remove('jwt_token')
-    history.replace('/login')
-  }
+const MyTrips = () => (
+  <TravelTripContextValue.Consumer>
+    {value => {
+      const {myTripsList} = value
+      const isCreatedList = myTripsList.length >= 1
 
-  return (
-    <ContextValue.Consumer>
-      {value => {
-        const {isMyTrips} = value
-        return (
-          <>
-            <nav className="nav-headertrip">
-              <div className="nav-contenttrip">
-                <Link to="/" className="travel-headingtrip">
-                  Travel Trip
-                </Link>
-
-                <ul className="nav-menutrip">
-                  <li className="nav-menu-itemtrip">
-                    <Link to="/" className="nav-linktrip">
-                      Home
-                    </Link>
-                  </li>
-
-                  <li className="nav-menu-itemtrip">
-                    <Link to="/my-trips" className="nav-linktrip">
-                      My Trips
-                    </Link>
-                  </li>
-                </ul>
-
-                <button
-                  type="button"
-                  className="logout-buttontrip"
-                  onClick={onClickLogout}
-                >
-                  Logout
+      return (
+        <div className="my-trips-container">
+          <Header className="header" />
+          {!isCreatedList && (
+            <div className="my-trips-content-container">
+              <img
+                src="https://res.cloudinary.com/dsfextndf/image/upload/v1715695116/Vector_rjv87k.png"
+                alt="no trips"
+                className="no-trip-image"
+              />
+              <h1 className="no-trip-heading">No upcoming trips</h1>
+              <p className="no-trip-description">
+                When you book a trip, you will see your trip details here
+              </p>
+              <Link to="/book-a-new-trip">
+                <button className="no-trip-button" type="button">
+                  Book a new trip
                 </button>
-              </div>
-            </nav>
-            )
-            {isMyTrips === true ? (
-              <div>
-                <h1 className="mytrips-heading">My Trips</h1>
-              </div>
-            ) : (
-              <div className="no-upcoming-container">
-                <img
-                  src="https://res.cloudinary.com/dkd9zrifr/image/upload/v1714750712/Frame_1000003896_esga0v.png"
-                  alt="no trips"
-                  className="no-upcoming-trip-image"
-                />
-                <h1 className="no-upcoming-heading">No upcoming trips.</h1>
-                <h1 className="no-upcoming-description">
-                  When you book a trip, you will see your trip details here.
-                </h1>
-                <h1 className="no-upcoming-mobile">
-                  When you book a trip, you will <br /> see your trip details
-                  here.
-                </h1>
-                <Link to="/book-a-new-trip">
-                  <button type="button" className="no-upcoming-button">
-                    Book a new trip
-                  </button>
-                </Link>
-              </div>
-            )}
-            <Footer />
-          </>
-        )
-      }}
-    </ContextValue.Consumer>
-  )
-}
+              </Link>
+            </div>
+          )}
+          {isCreatedList && (
+            <div className="trips-list-container">
+              <h1 className="my-trips-heading">My Trips</h1>
+              <ul className="my-trips-list-ul">
+                {myTripsList.map(eachTrip => (
+                  <li className="my-trips-item-container" key={eachTrip.id}>
+                    <h1 className="trip-item-heading">
+                      {eachTrip.endLocation}
+                    </h1>
+                    <div>
+                      <p className="date-text">Date</p>
+                      <p className="date-to-text">{`${eachTrip.startDate} to ${eachTrip.endDate}`}</p>
+                    </div>
+                    <button type="button" className="trip-cancel-btn">
+                      Cancel
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )
+    }}
+  </TravelTripContextValue.Consumer>
+)
 
-export default MyTrips
+export default withRouter(MyTrips)
