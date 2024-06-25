@@ -51,6 +51,7 @@ const Header = props => {
             </button>
           </div>
         </div>
+
         <button
           onClick={onClickLogoutButton}
           type="button"

@@ -20,9 +20,9 @@ const MyTrips = () => (
                 alt="no trips"
                 className="no-trip-image"
               />
-              <h1 className="no-trip-heading">No upcoming trips</h1>
+              <p className="no-trip-heading">No upcoming trips.</p>
               <p className="no-trip-description">
-                When you book a trip, you will see your trip details here
+                When you book a trip, you will see your trip details here.
               </p>
               <Link to="/book-a-new-trip">
                 <button className="no-trip-button" type="button">

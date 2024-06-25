@@ -835,9 +835,9 @@ class BookNewTrip extends Component {
                   src="https://assets.ccbp.in/frontend/react-js/travel-trip-steps-successfully-completed-img.png"
                   alt="success"
                 />
-                <h1 className="awesome-text">Awesome</h1>
+                <h1 className="awesome-text">Awesome!</h1>
                 <p className="booking-confirmed-description">
-                  Your booking has been confirmed
+                  Your booking has been confirmed.
                 </p>
                 <button className="book-a-new-trip-button" type="submit">
                   Book a New Trip
